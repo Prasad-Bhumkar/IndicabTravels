@@ -31,6 +31,12 @@ export default function Header() {
                 Home
               </button>
               <button 
+                onClick={() => scrollToSection('booking')}
+                className="text-gray-600 hover:text-primary px-3 py-2 text-sm font-medium transition-colors"
+              >
+                Book Now
+              </button>
+              <button 
                 onClick={() => scrollToSection('services')}
                 className="text-gray-600 hover:text-primary px-3 py-2 text-sm font-medium transition-colors"
               >
@@ -83,6 +89,12 @@ export default function Header() {
                 className="text-gray-900 hover:text-primary block px-3 py-2 text-base font-medium w-full text-left"
               >
                 Home
+              </button>
+              <button 
+                onClick={() => scrollToSection('booking')}
+                className="text-gray-600 hover:text-primary block px-3 py-2 text-base font-medium w-full text-left"
+              >
+                Book Now
               </button>
               <button 
                 onClick={() => scrollToSection('services')}

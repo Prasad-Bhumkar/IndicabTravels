@@ -509,6 +509,7 @@ export default function BookingWizard() {
                             rows={4}
                             placeholder="Any special requirements, specific routes, child seats, wheelchair accessibility, etc."
                             {...field}
+                            value={field.value || ""}
                           />
                         </FormControl>
                         <FormMessage />

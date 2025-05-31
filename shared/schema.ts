@@ -80,6 +80,11 @@ export const insertBookingSchema = createInsertSchema(bookings).pick({
   pickupDate: z.string().min(1, "Pickup date is required"),
   pickupTime: z.string().min(1, "Pickup time is required"),
   vehicleType: z.string().min(1, "Vehicle type is required"),
+  dropoffLocation: z.string().optional(),
+  returnDate: z.string().optional(),
+  returnTime: z.string().optional(), 
+  rentalDuration: z.string().optional(),
+  specialRequests: z.string().optional(),
 });
 
 export type InsertUser = z.infer<typeof insertUserSchema>;

@@ -8,8 +8,11 @@ export default function Hero() {
     }
   };
 
-  const openQuoteModal = () => {
-    alert('For quick quotes, please call +91-9876543210 or WhatsApp us with your travel details.');
+  const scrollToBooking = () => {
+    const element = document.getElementById('booking');
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
   };
 
   return (
@@ -36,11 +39,11 @@ export default function Hero() {
             
             <div className="flex flex-col sm:flex-row gap-4 mb-8">
               <button 
-                onClick={openQuoteModal}
+                onClick={scrollToBooking}
                 className="bg-yellow-500 hover:bg-yellow-600 text-white font-semibold px-8 py-4 rounded-lg transition-all duration-300 transform hover:scale-105 shadow-lg"
               >
                 <Calculator className="w-4 h-4 mr-2 inline" />
-                Get Quick Quote
+                Book Your Ride
               </button>
               <button 
                 onClick={scrollToServices}
