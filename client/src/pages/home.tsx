@@ -1,5 +1,6 @@
 import Header from "@/components/header";
 import Hero from "@/components/hero";
+import BookingWizard from "@/components/booking-wizard";
 import Services from "@/components/services";
 import USPs from "@/components/usps";
 import About from "@/components/about";
@@ -13,6 +14,7 @@ export default function Home() {
     <div className="min-h-screen bg-white">
       <Header />
       <Hero />
+      <BookingWizard />
       <Services />
       <USPs />
       <About />

@@ -94,7 +94,8 @@ export default function BookingWizard() {
     submitBookingMutation.mutate(bookingData);
   };
 
-  const handleBookingTypeChange = (type: "one-way" | "return" | "rental") => {
+  const handleBookingTypeChange = (value: string) => {
+    const type = value as "one-way" | "return" | "rental";
     setBookingType(type);
     form.setValue("bookingType", type);
     // Clear fields that don't apply to the new booking type
@@ -304,7 +305,7 @@ export default function BookingWizard() {
                               <MapPin className="w-4 h-4 text-red-600" />
                               Drop-off Location *
                             </FormLabel>
-                            <Select onValueChange={field.onChange} defaultValue={field.value}>
+                            <Select onValueChange={field.onChange} defaultValue={field.value || ""}>
                               <FormControl>
                                 <SelectTrigger>
                                   <SelectValue placeholder="Select drop-off location" />
@@ -342,7 +343,7 @@ export default function BookingWizard() {
                             {bookingType === "rental" ? "Rental Start Date" : "Pickup Date"} *
                           </FormLabel>
                           <FormControl>
-                            <Input type="date" {...field} />
+                            <Input type="date" {...field} value={field.value || ""} />
                           </FormControl>
                           <FormMessage />
                         </FormItem>
@@ -379,7 +380,7 @@ export default function BookingWizard() {
                               Return Date
                             </FormLabel>
                             <FormControl>
-                              <Input type="date" {...field} />
+                              <Input type="date" {...field} value={field.value || ""} />
                             </FormControl>
                             <FormMessage />
                           </FormItem>
@@ -395,7 +396,7 @@ export default function BookingWizard() {
                               Return Time
                             </FormLabel>
                             <FormControl>
-                              <Input type="time" {...field} />
+                              <Input type="time" {...field} value={field.value || ""} />
                             </FormControl>
                             <FormMessage />
                           </FormItem>
@@ -415,7 +416,7 @@ export default function BookingWizard() {
                             <Timer className="w-4 h-4" />
                             Rental Duration
                           </FormLabel>
-                          <Select onValueChange={field.onChange} defaultValue={field.value}>
+                          <Select onValueChange={field.onChange} defaultValue={field.value || ""}>
                             <FormControl>
                               <SelectTrigger>
                                 <SelectValue placeholder="Select rental duration" />
