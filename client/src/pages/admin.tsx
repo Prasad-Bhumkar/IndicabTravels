@@ -21,7 +21,7 @@ import {
 } from "lucide-react";
 
 interface Booking {
-  id: number;
+  _id?: string;
   bookingType: string;
   customerName: string;
   customerEmail: string;
@@ -41,7 +41,7 @@ interface Booking {
 }
 
 interface ContactMessage {
-  id: number;
+  _id?: string;
   name: string;
   email: string;
   inquiryType: string;
@@ -186,7 +186,7 @@ export default function Admin() {
                 ) : (
                   <div className="space-y-4">
                     {(bookings as Booking[]).map((booking: Booking) => (
-                      <div key={booking.id} className="border rounded-lg p-4 hover:bg-gray-50 transition-colors">
+                      <div key={booking._id} className="border rounded-lg p-4 hover:bg-gray-50 transition-colors">
                         <div className="flex items-start justify-between mb-3">
                           <div className="flex items-center space-x-3">
                             <Badge className={getStatusColor(booking.status)}>
@@ -196,7 +196,7 @@ export default function Admin() {
                               {getBookingTypeLabel(booking.bookingType)}
                             </Badge>
                             <span className="text-sm text-gray-500">
-                              Booking #{booking.id}
+                              Booking #{booking._id}
                             </span>
                           </div>
                           <span className="text-sm text-gray-500">
@@ -308,7 +308,7 @@ export default function Admin() {
                 ) : (
                   <div className="space-y-4">
                     {(contactMessages as ContactMessage[]).map((message: ContactMessage) => (
-                      <div key={message.id} className="border rounded-lg p-4 hover:bg-gray-50 transition-colors">
+                      <div key={message._id} className="border rounded-lg p-4 hover:bg-gray-50 transition-colors">
                         <div className="flex items-start justify-between mb-3">
                           <div className="flex items-center space-x-3">
                             <Badge variant="outline">{message.inquiryType}</Badge>

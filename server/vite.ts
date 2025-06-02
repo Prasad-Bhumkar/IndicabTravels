@@ -19,12 +19,21 @@ export function log(message: string, source = "express") {
   console.log(`${formattedTime} [${source}] ${message}`);
 }
 
+import cors from "cors";
+
 export async function setupVite(app: Express, server: Server) {
   const serverOptions = {
     middlewareMode: true,
     hmr: { server },
     allowedHosts: true,
   };
+
+  // Add CORS middleware to allow requests from frontend with credentials and headers
+  app.use(cors({
+    origin: "http://localhost:5000",
+    credentials: true,
+    allowedHeaders: ["Content-Type", "Authorization"],
+  }));
 
   const vite = await createViteServer({
     ...viteConfig,
@@ -45,12 +54,7 @@ export async function setupVite(app: Express, server: Server) {
     const url = req.originalUrl;
 
     try {
-      const clientTemplate = path.resolve(
-        import.meta.dirname,
-        "..",
-        "client",
-        "index.html",
-      );
+      const clientTemplate = new URL("../client/index.html", import.meta.url).pathname;
 
       // always reload the index.html file from disk incase it changes
       let template = await fs.promises.readFile(clientTemplate, "utf-8");
