@@ -68,6 +68,20 @@ curl -X GET http://localhost:5000/api/contact-messages \
 
 - Expected Result: 200 OK with list of contact messages.
 
+### Endpoint: PATCH /api/contact-messages/:id/resolve
+
+- Description: Mark a contact message as resolved.
+- Header: `Authorization: Bearer admin-token`
+
+### Test Command
+
+```bash
+curl -X PATCH http://localhost:5000/api/contact-messages/1234567890abcdef/resolve \
+-H "Authorization: Bearer admin-token" -v
+```
+
+- Expected Result: 200 OK with success message and updated message data.
+
 ### Endpoint: GET /api/bookings
 
 - Description: Retrieve all bookings.
@@ -81,6 +95,31 @@ curl -X GET http://localhost:5000/api/bookings \
 ```
 
 - Expected Result: 200 OK with list of bookings.
+
+### Endpoint: PATCH /api/bookings/:id/status
+
+- Description: Update booking status.
+- Header: `Authorization: Bearer admin-token`
+- Body: JSON with `status` field.
+
+### Test Command
+
+```bash
+curl -X PATCH http://localhost:5000/api/bookings/1234567890abcdef/status \
+-H "Authorization: Bearer admin-token" \
+-H "Content-Type: application/json" \
+-d '{"status":"confirmed"}' -v
+```
+
+- Expected Result: 200 OK with success message and updated booking data.
+
+---
+
+## Frontend URLs
+
+- `/` - Home page
+- `/admin` - Admin page
+- All other paths lead to the NotFound page.
 
 ---
 
