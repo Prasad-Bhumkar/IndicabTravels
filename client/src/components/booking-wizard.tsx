@@ -2,7 +2,6 @@ import { useState } from "react";
 import { useMutation } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { insertBookingSchema, type InsertBooking } from "@shared/schema";
 import { apiRequest } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
@@ -27,13 +26,13 @@ import {
   RotateCcw,
   Timer
 } from "lucide-react";
+import type { InsertBooking } from "@/types/api";
 
 export default function BookingWizard() {
   const [bookingType, setBookingType] = useState<"one-way" | "return" | "rental">("one-way");
   const { toast } = useToast();
 
   const form = useForm<InsertBooking>({
-    resolver: zodResolver(insertBookingSchema),
     defaultValues: {
       bookingType: "one-way",
       customerName: "",
@@ -257,119 +256,100 @@ export default function BookingWizard() {
                           Email Address *
                         </FormLabel>
                         <FormControl>
-                          <Input type="email" placeholder="your@email.com" {...field} />
+                          <Input placeholder="you@example.com" {...field} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
                     )}
                   />
-
-                  {/* Location Information */}
-                  <div className="grid md:grid-cols-2 gap-6">
-                    <FormField
-                      control={form.control}
-                      name="pickupLocation"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel className="flex items-center gap-2">
-                            <MapPin className="w-4 h-4 text-green-600" />
-                            Pickup Location *
-                          </FormLabel>
-                          <Select onValueChange={field.onChange} defaultValue={field.value}>
-                            <FormControl>
-                              <SelectTrigger>
-                                <SelectValue placeholder="Select pickup location" />
-                              </SelectTrigger>
-                            </FormControl>
+                  <FormField
+                    control={form.control}
+                    name="pickupLocation"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel className="flex items-center gap-2">
+                          <MapPin className="w-4 h-4" />
+                          Pickup Location *
+                        </FormLabel>
+                        <FormControl>
+                          <Select onValueChange={field.onChange} value={field.value} defaultValue={field.value}>
+                            <SelectTrigger>
+                              <SelectValue placeholder="Select pickup location" />
+                            </SelectTrigger>
                             <SelectContent>
                               {puneLocations.map((location) => (
                                 <SelectItem key={location} value={location}>
                                   {location}
                                 </SelectItem>
                               ))}
-                              <SelectItem value="other">Other (specify in special requests)</SelectItem>
                             </SelectContent>
                           </Select>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-
-                    {(bookingType === "one-way" || bookingType === "return") && (
-                      <FormField
-                        control={form.control}
-                        name="dropoffLocation"
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel className="flex items-center gap-2">
-                              <MapPin className="w-4 h-4 text-red-600" />
-                              Drop-off Location *
-                            </FormLabel>
-                            <Select onValueChange={field.onChange} defaultValue={field.value || ""}>
-                              <FormControl>
-                                <SelectTrigger>
-                                  <SelectValue placeholder="Select drop-off location" />
-                                </SelectTrigger>
-                              </FormControl>
-                              <SelectContent>
-                                {puneLocations.map((location) => (
-                                  <SelectItem key={location} value={location}>
-                                    {location}
-                                  </SelectItem>
-                                ))}
-                                <SelectItem value="mumbai">Mumbai</SelectItem>
-                                <SelectItem value="nashik">Nashik</SelectItem>
-                                <SelectItem value="aurangabad">Aurangabad</SelectItem>
-                                <SelectItem value="lonavala">Lonavala</SelectItem>
-                                <SelectItem value="other">Other (specify in special requests)</SelectItem>
-                              </SelectContent>
-                            </Select>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
                     )}
-                  </div>
-
-                  {/* Date and Time Information */}
-                  <div className="grid md:grid-cols-2 gap-6">
-                    <FormField
-                      control={form.control}
-                      name="pickupDate"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel className="flex items-center gap-2">
-                            <Calendar className="w-4 h-4" />
-                            {bookingType === "rental" ? "Rental Start Date" : "Pickup Date"} *
-                          </FormLabel>
-                          <FormControl>
-                            <Input type="date" {...field} value={field.value || ""} />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                    <FormField
-                      control={form.control}
-                      name="pickupTime"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel className="flex items-center gap-2">
-                            <Clock className="w-4 h-4" />
-                            {bookingType === "rental" ? "Start Time" : "Pickup Time"} *
-                          </FormLabel>
-                          <FormControl>
-                            <Input type="time" {...field} />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                  </div>
-
-                  {/* Return Date and Time for Round Trip */}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="dropoffLocation"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel className="flex items-center gap-2">
+                          <MapPin className="w-4 h-4" />
+                          Dropoff Location *
+                        </FormLabel>
+                        <FormControl>
+                          <Select onValueChange={field.onChange} value={field.value} defaultValue={field.value}>
+                            <SelectTrigger>
+                              <SelectValue placeholder="Select dropoff location" />
+                            </SelectTrigger>
+                            <SelectContent>
+                              {puneLocations.map((location) => (
+                                <SelectItem key={location} value={location}>
+                                  {location}
+                                </SelectItem>
+                              ))}
+                            </SelectContent>
+                          </Select>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="pickupDate"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel className="flex items-center gap-2">
+                          <Calendar className="w-4 h-4" />
+                          Pickup Date *
+                        </FormLabel>
+                        <FormControl>
+                          <Input type="date" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="pickupTime"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel className="flex items-center gap-2">
+                          <Clock className="w-4 h-4" />
+                          Pickup Time *
+                        </FormLabel>
+                        <FormControl>
+                          <Input type="time" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
                   {bookingType === "return" && (
-                    <div className="grid md:grid-cols-2 gap-6">
+                    <>
                       <FormField
                         control={form.control}
                         name="returnDate"
@@ -377,10 +357,10 @@ export default function BookingWizard() {
                           <FormItem>
                             <FormLabel className="flex items-center gap-2">
                               <Calendar className="w-4 h-4" />
-                              Return Date
+                              Return Date *
                             </FormLabel>
                             <FormControl>
-                              <Input type="date" {...field} value={field.value || ""} />
+                              <Input type="date" {...field} />
                             </FormControl>
                             <FormMessage />
                           </FormItem>
@@ -393,19 +373,17 @@ export default function BookingWizard() {
                           <FormItem>
                             <FormLabel className="flex items-center gap-2">
                               <Clock className="w-4 h-4" />
-                              Return Time
+                              Return Time *
                             </FormLabel>
                             <FormControl>
-                              <Input type="time" {...field} value={field.value || ""} />
+                              <Input type="time" {...field} />
                             </FormControl>
                             <FormMessage />
                           </FormItem>
                         )}
                       />
-                    </div>
+                    </>
                   )}
-
-                  {/* Rental Duration for Hourly Rental */}
                   {bookingType === "rental" && (
                     <FormField
                       control={form.control}
@@ -413,137 +391,85 @@ export default function BookingWizard() {
                       render={({ field }) => (
                         <FormItem>
                           <FormLabel className="flex items-center gap-2">
-                            <Timer className="w-4 h-4" />
-                            Rental Duration
+                            <Clock className="w-4 h-4" />
+                            Rental Duration (hours) *
                           </FormLabel>
-                          <Select onValueChange={field.onChange} defaultValue={field.value || ""}>
-                            <FormControl>
-                              <SelectTrigger>
-                                <SelectValue placeholder="Select rental duration" />
-                              </SelectTrigger>
-                            </FormControl>
-                            <SelectContent>
-                              <SelectItem value="4-hours">4 Hours (Half Day)</SelectItem>
-                              <SelectItem value="8-hours">8 Hours (Full Day)</SelectItem>
-                              <SelectItem value="12-hours">12 Hours</SelectItem>
-                              <SelectItem value="24-hours">24 Hours</SelectItem>
-                              <SelectItem value="custom">Custom Duration (specify in special requests)</SelectItem>
-                            </SelectContent>
-                          </Select>
+                          <FormControl>
+                            <Input type="number" min={1} max={24} {...field} />
+                          </FormControl>
                           <FormMessage />
                         </FormItem>
                       )}
                     />
                   )}
-
-                  {/* Vehicle and Passenger Information */}
-                  <div className="grid md:grid-cols-2 gap-6">
-                    <FormField
-                      control={form.control}
-                      name="vehicleType"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel className="flex items-center gap-2">
-                            <Car className="w-4 h-4" />
-                            Vehicle Type *
-                          </FormLabel>
-                          <Select onValueChange={field.onChange} defaultValue={field.value}>
-                            <FormControl>
-                              <SelectTrigger>
-                                <SelectValue placeholder="Select vehicle type" />
-                              </SelectTrigger>
-                            </FormControl>
+                  <FormField
+                    control={form.control}
+                    name="vehicleType"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel className="flex items-center gap-2">
+                          <Car className="w-4 h-4" />
+                          Vehicle Type *
+                        </FormLabel>
+                        <FormControl>
+                          <Select onValueChange={field.onChange} value={field.value} defaultValue={field.value}>
+                            <SelectTrigger>
+                              <SelectValue placeholder="Select vehicle type" />
+                            </SelectTrigger>
                             <SelectContent>
                               {vehicleTypes.map((vehicle) => (
                                 <SelectItem key={vehicle.value} value={vehicle.value}>
-                                  <div>
-                                    <div className="font-medium">{vehicle.label}</div>
-                                    <div className="text-sm text-gray-500">{vehicle.description}</div>
-                                  </div>
+                                  {vehicle.label}
                                 </SelectItem>
                               ))}
                             </SelectContent>
                           </Select>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                    <FormField
-                      control={form.control}
-                      name="passengerCount"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel className="flex items-center gap-2">
-                            <Users className="w-4 h-4" />
-                            Number of Passengers *
-                          </FormLabel>
-                          <Select onValueChange={(value) => field.onChange(parseInt(value))} defaultValue={field.value?.toString()}>
-                            <FormControl>
-                              <SelectTrigger>
-                                <SelectValue placeholder="Select passenger count" />
-                              </SelectTrigger>
-                            </FormControl>
-                            <SelectContent>
-                              {[1, 2, 3, 4, 5, 6, 7, 8].map((count) => (
-                                <SelectItem key={count} value={count.toString()}>
-                                  {count} {count === 1 ? "Passenger" : "Passengers"}
-                                </SelectItem>
-                              ))}
-                            </SelectContent>
-                          </Select>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                  </div>
-
-                  {/* Special Requests */}
-                  <FormField
-                    control={form.control}
-                    name="specialRequests"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Special Requests or Additional Information</FormLabel>
-                        <FormControl>
-                          <Textarea 
-                            rows={4}
-                            placeholder="Any special requirements, specific routes, child seats, wheelchair accessibility, etc."
-                            {...field}
-                            value={field.value || ""}
-                          />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
                     )}
                   />
-
-                  {/* Submit Button */}
-                  <div className="flex justify-center pt-6">
-                    <Button 
-                      type="submit" 
-                      size="lg"
-                      className="w-full md:w-auto bg-blue-600 hover:bg-blue-700 text-white font-semibold px-12 py-4 transition-colors transform hover:scale-105 duration-200"
-                      disabled={submitBookingMutation.isPending}
-                    >
-                      {submitBookingMutation.isPending ? "Submitting..." : "Submit Booking Request"}
-                    </Button>
-                  </div>
-
-                  <div className="text-center text-sm text-gray-600 bg-gray-50 p-4 rounded-lg">
-                    <p className="mb-2">
-                      <strong>What happens next?</strong>
-                    </p>
-                    <p>
-                      We'll review your booking request and contact you within 30 minutes to confirm 
-                      availability, provide exact pricing, and finalize your booking details.
-                    </p>
-                  </div>
+                  <FormField
+                    control={form.control}
+                    name="passengerCount"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel className="flex items-center gap-2">
+                          <Users className="w-4 h-4" />
+                          Number of Passengers *
+                        </FormLabel>
+                        <FormControl>
+                          <Input type="number" min={1} max={15} {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="specialRequests"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel className="flex items-center gap-2">
+                          <Badge className="w-4 h-4" />
+                          Special Requests
+                        </FormLabel>
+                        <FormControl>
+                          <Textarea placeholder="Any special requests or instructions" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <Button type="submit" className="w-full">
+                    Submit Booking
+                  </Button>
                 </form>
               </Form>
             </Tabs>
           </CardContent>
         </Card>
       </div>
-    </section>
-  );
-}
+        </section>
+      );
+    }
