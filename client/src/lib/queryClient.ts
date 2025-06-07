@@ -42,7 +42,7 @@ export const getQueryFn: <T>(options: {
     }
 
     // Prepend backend server URL to API requests
-    const backendUrl = "http://localhost:5000";
+    const backendUrl = "http://localhost:8080";
     const fullUrl = url.startsWith("http") ? url : backendUrl + url;
 
     const res = await fetch(fullUrl, {

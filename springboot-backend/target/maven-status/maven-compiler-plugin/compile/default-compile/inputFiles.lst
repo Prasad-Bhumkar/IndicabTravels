@@ -1,0 +1,10 @@
+/workspaces/IndicabTravels/springboot-backend/src/main/java/com/example/indicabtravels/entity/ContactMessage.java
+/workspaces/IndicabTravels/springboot-backend/src/main/java/com/example/indicabtravels/repository/ContactMessageRepository.java
+/workspaces/IndicabTravels/springboot-backend/src/main/java/com/example/indicabtravels/CorsConfig.java
+/workspaces/IndicabTravels/springboot-backend/src/main/java/com/example/indicabtravels/IndicabTravelsApplication.java
+/workspaces/IndicabTravels/springboot-backend/src/main/java/com/example/indicabtravels/entity/Booking.java
+/workspaces/IndicabTravels/springboot-backend/src/main/java/com/example/indicabtravels/service/BookingService.java
+/workspaces/IndicabTravels/springboot-backend/src/main/java/com/example/indicabtravels/controller/ContactMessageController.java
+/workspaces/IndicabTravels/springboot-backend/src/main/java/com/example/indicabtravels/controller/BookingController.java
+/workspaces/IndicabTravels/springboot-backend/src/main/java/com/example/indicabtravels/repository/BookingRepository.java
+/workspaces/IndicabTravels/springboot-backend/src/main/java/com/example/indicabtravels/service/ContactMessageService.java

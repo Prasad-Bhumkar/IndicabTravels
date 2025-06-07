@@ -23,21 +23,18 @@ import { useToast } from "@/hooks/use-toast";
 
 interface Booking {
   _id?: string;
-  bookingType: string;
   customerName: string;
   customerEmail: string;
-  customerPhone: string;
   pickupLocation: string;
-  dropoffLocation: string | null;
+  dropoffLocation?: string;
   pickupDate: string;
   pickupTime: string;
-  returnDate: string | null;
-  returnTime: string | null;
-  rentalDuration: string | null;
-  vehicleType: string;
-  passengerCount: number;
-  specialRequests: string | null;
+  returnDate?: string;
+  returnTime?: string;
+  rentalDuration?: number;
+  specialRequests?: string;
   status: string;
+  estimatedFare?: number;
   createdAt: string;
 }
 
@@ -45,8 +42,7 @@ interface ContactMessage {
   _id?: string;
   name: string;
   email: string;
-  inquiryType: string;
-  contactMethod: string;
+  phone?: string; // Added phone field to match usage in handleCall
   message: string;
   createdAt: string;
 }
@@ -126,14 +122,7 @@ export default function Admin() {
       toast({ title: "Error", description: "Failed to mark message as resolved", variant: "destructive" });
     },
   });
-  const getBookingTypeLabel = (type: string) => {
-    switch (type) {
-      case "one-way": return "One Way";
-      case "return": return "Round Trip";
-      case "rental": return "Hourly Rental";
-      default: return type;
-    }
-  };
+  // Removed getBookingTypeLabel as bookingType no longer exists
 
   const getStatusColor = (status: string) => {
     switch (status) {
@@ -193,7 +182,8 @@ export default function Admin() {
   };
 
   const handleCall = (message: ContactMessage) => {
-    window.location.href = `tel:${message.email}`;
+    // Fix: use phone number instead of email for call
+    window.location.href = `tel:${message.phone || ''}`;
   };
 
   const handleMarkResolved = (messageId: string) => {
@@ -339,9 +329,7 @@ export default function Admin() {
                             <Badge className={getStatusColor(booking.status)}>
                               {booking.status}
                             </Badge>
-                            <Badge variant="outline">
-                              {getBookingTypeLabel(booking.bookingType)}
-                            </Badge>
+                            {/* Removed bookingType badge as it does not exist in backend */}
                             <span className="text-sm text-gray-500">
                               Booking #{booking._id}
                             </span>
@@ -354,10 +342,7 @@ export default function Admin() {
                         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4 mb-3">
                           <div>
                             <p className="text-sm font-medium text-gray-900">{booking.customerName}</p>
-                            <div className="flex items-center text-sm text-gray-600">
-                              <Phone className="w-3 h-3 mr-1" />
-                              {booking.customerPhone}
-                            </div>
+                            {/* Removed customerPhone as it does not exist in backend */}
                             <div className="flex items-center text-sm text-gray-600">
                               <Mail className="w-3 h-3 mr-1" />
                               {booking.customerEmail}
@@ -399,14 +384,7 @@ export default function Admin() {
                           </div>
 
                           <div>
-                            <div className="flex items-center text-sm text-gray-600 mb-1">
-                              <Car className="w-3 h-3 mr-1" />
-                              {booking.vehicleType}
-                            </div>
-                            <div className="flex items-center text-sm text-gray-600">
-                              <Users className="w-3 h-3 mr-1" />
-                              {booking.passengerCount} passengers
-                            </div>
+                            {/* Removed vehicleType and passengerCount as they do not exist in backend */}
                           </div>
                         </div>
 
@@ -472,8 +450,8 @@ export default function Admin() {
                       <div key={message._id} className="border rounded-lg p-4 hover:bg-gray-50 transition-colors">
                         <div className="flex items-start justify-between mb-3">
                           <div className="flex items-center space-x-3">
-                            <Badge variant="outline">{message.inquiryType}</Badge>
-                            <Badge variant="secondary">{message.contactMethod}</Badge>
+                            <Badge variant="outline">{/* No inquiryType in backend */}</Badge>
+                            <Badge variant="secondary">{/* No contactMethod in backend */}</Badge>
                           </div>
                           <span className="text-sm text-gray-500">
                             {formatDate(message.createdAt)}
