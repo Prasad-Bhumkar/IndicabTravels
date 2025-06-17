@@ -1,0 +1,11 @@
+com\example\indicabtravels\controller\BookingController.class
+com\example\indicabtravels\controller\ContactMessageController.class
+com\example\indicabtravels\entity\ContactMessage.class
+com\example\indicabtravels\CorsConfig.class
+com\example\indicabtravels\IndicabTravelsApplication.class
+com\example\indicabtravels\repository\ContactMessageRepository.class
+com\example\indicabtravels\service\ContactMessageService.class
+com\example\indicabtravels\CorsConfig$1.class
+com\example\indicabtravels\entity\Booking.class
+com\example\indicabtravels\service\BookingService.class
+com\example\indicabtravels\repository\BookingRepository.class
